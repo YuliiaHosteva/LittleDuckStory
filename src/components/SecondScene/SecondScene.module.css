@@ -1,0 +1,138 @@
+.scene{
+  width: 100vw;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  background: #bfe6ff;
+}
+
+.frame{
+  position: relative;
+  width: min(96vw, calc(96svh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+background:
+    linear-gradient(
+      135deg,
+      #e5faff 0%,
+      #addfff 28%,
+      #62b3e2 56%,
+      #82783d 78%,
+      #2b2305 100%
+    );
+}
+
+/* вода */
+.water{
+  position:absolute; inset:0; top:60%; bottom:-8%;
+  background: linear-gradient(to bottom,
+    rgba(121,194,255,0) 0%,
+    rgba(121,194,255,.45) 12%,
+    rgba(114,186,252,.85) 38%,
+    #6fb9ff 100%
+  );
+  z-index:1;
+}
+.waterTex{
+  position:absolute; inset:0; top:60%; bottom:-8%;
+  background-repeat: repeat-x; background-size: 600px auto; opacity:.28;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 36px, black calc(100% - 12px), transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, black 36px, black calc(100% - 12px), transparent 100%);
+  z-index:2;
+}
+
+.shadow{
+  position:absolute; height:6%;
+  transform: translateX(-50%);
+  left: 50%;            /* перезаписуємо inline-стилями left/right */
+  background: radial-gradient(50% 50% at 50% 50%,
+    rgba(0,0,0,.18) 0%,
+    rgba(0,0,0,.10) 40%,
+    rgba(0,0,0,0) 70%);
+  filter: blur(2px);
+  z-index: 3;           /* під персонажами (які на z-index:4) */
+}
+
+
+/* дальній план */
+.bgForest{
+  position:absolute; 
+  left:-3%; 
+  top:-5%;
+  width: 45%; 
+  height:auto; 
+  opacity:.45;
+  filter: saturate(110%) blur(.2px);
+  z-index:0;
+}
+.birds{
+  position:absolute; left: 42%; top: 12%;
+  width: 12%; height:auto; opacity:.6; z-index:0;
+}
+
+/* предмети берега */
+.house{
+  position:absolute; 
+  left:20%;
+  bottom:25%;
+  width: 20%; 
+  height:auto; 
+  z-index:3;
+}
+.reeds2{
+  position:absolute; right:16%; bottom:6%;
+  width: 22%; height:auto; transform-origin: 60% 100%; z-index:3;
+}
+.deck{
+  position:absolute; left: 10%; bottom: 7%;
+  width: 22%; height:auto; z-index:3;
+}
+
+/* персонажі */
+.beaver{
+  position:absolute; 
+  left: 3%; 
+  bottom: 6%;
+  width: 28%; 
+  height:auto; 
+  z-index:4;
+}
+
+.flipX {
+  transform: scaleX(-1);          /* дзеркально по горизонталі */
+  transform-origin: center;       /* обертання навколо центру */
+}
+
+
+.duck2{
+  position:absolute; left: 35%; bottom: 16%;
+  width: 10%; height:auto; z-index:4;
+}
+
+/* комаха */
+.ladybug{
+  position:absolute; right: 28%; top: 28%;
+  width: 6.5%; height:auto; z-index:4;
+}
+
+/* підпис */
+.caption{
+  position:absolute; margin:0; color:#fff; font-weight:700;
+  font-family: "Comfortaa", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size: clamp(18px, 2.6vmax, 34px);
+  padding: 8px 14px; border-radius: 12px;
+  background: rgba(10,25,41,.28); text-shadow: 0 3px 10px rgba(0,0,0,.45);
+  backdrop-filter: saturate(130%) blur(2px);
+  z-index:5;
+}
+.topCenter{ top:14px; left:50%; transform: translateX(-50%); }
+
+/* адаптив */
+@media (max-width: 768px) {
+  .beaver{ width: 22%; }
+  .duck2{ width: 14%; }
+  .house{ width: 26%; }
+  .reeds2{ width: 28%; }
+}
