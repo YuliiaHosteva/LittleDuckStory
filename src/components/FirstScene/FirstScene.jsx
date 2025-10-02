@@ -1,5 +1,5 @@
 import css from './FirstScene.module.css';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 
 
@@ -22,6 +22,72 @@ import daisy from '../../assets/Scene1/daisy.png';
 export default function FirstScene() {
   const root = useRef(null);
 
+   // draggable елементи
+  const waterRef = useRef(null);
+  const duckRef  = useRef(null);
+  const lotusRef = useRef(null);
+  const dragRef  = useRef(null);
+
+   const duckFloatRef = useRef(null);
+
+  function useDraggable(elRef, boundsRef, frameRef, opts = {}) {
+  useEffect(() => {
+    const el = elRef.current;
+    // const prevZ = { value: '' };
+    const bounds = boundsRef.current;
+    const frame = frameRef.current;
+    if (!el || !bounds || !frame) return;
+
+    let down = false;
+
+    const onDown = (e) => {
+      down = true;
+      el.setPointerCapture?.(e.pointerId);
+      el.style.bottom = 'auto';
+      el.style.cursor = 'grabbing';
+      el.style.userSelect = 'none';
+      // prevZ.value = el.style.zIndex;
+      // el.style.zIndex = '999';
+      opts.onStart?.();
+      
+    };
+
+    const onMove = (e) => {
+      if (!down) return;
+      const fr = frame.getBoundingClientRect();
+      const b  = bounds.getBoundingClientRect();
+      const x = Math.min(Math.max(e.clientX, b.left),  b.right);
+      const y = Math.min(Math.max(e.clientY, b.top),   b.bottom);
+      const left = ((x - fr.left) / fr.width)  * 100;
+      const top  = ((y - fr.top)  / fr.height) * 100;
+      el.style.left = `${left}%`;
+      el.style.top  = `${top}%`;
+    };
+
+    const onUp = (e) => {
+      if (!down) return;
+      down = false;
+      el.releasePointerCapture?.(e.pointerId);
+      el.style.cursor = 'grab';
+      // el.style.zIndex = prevZ.value || '';
+      opts.onEnd?.();
+    };
+
+    el.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup',   onUp);
+    window.addEventListener('pointercancel', onUp);
+
+    return () => {
+      el.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup',   onUp);
+      window.removeEventListener('pointercancel', onUp);
+    };
+  }, [elRef, boundsRef, frameRef, opts]);
+}
+
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // стартові стани
@@ -33,15 +99,31 @@ export default function FirstScene() {
 
       // вхід сцени
       const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-      tl.fromTo(`.${css.bg}`, { scale: 1.04 }, { scale: 1, duration: 1.0 })
+      tl.fromTo(`.${css.frame}`, { scale: 1.04 }, { scale: 1, duration: 1.0 })
         .to(`.${css.mama}`, { opacity: 1, y: 0, duration: 0.6 }, '-=0.6')
         .to(`.${css.duck}`, { opacity: 1, y: 0, scale: 1, duration: 0.7 }, '-=0.4')
         .to(`.${css.caption}`, { opacity: 1, y: 0, duration: 0.5 }, '-=0.2')
         .to([`.${css.bflyBlue}`, `.${css.bflyOrange}`], { opacity: 1, duration: 0.2 }, '<');
 
       // нескінченні петлі
-      gsap.to(`.${css.duck}`, { y: '+=6', repeat: -1, yoyo: true, duration: 1.8, ease: 'sine.inOut' });
-      gsap.to(`.${css.mama}`, { y: '+=4', repeat: -1, yoyo: true, duration: 2.2, ease: 'sine.inOut' });
+const duckFloat = gsap.to(`.${css.duck}`, { y: '+=6', repeat:-1, yoyo:true, duration:1.8, ease:'sine.inOut' });// 1) плавне погойдування мами (контейнер)
+duckFloatRef.current = duckFloat;
+
+gsap.to(`.${css.mama}`, {
+  y: '+=4', repeat: -1, yoyo: true, duration: 2.4, ease: 'sine.inOut'
+});
+
+// 2) легкий нахил/«дихання» корпусу (тільки картинка)
+gsap.to(`.${css.mamaImg}`, {
+  rotation: 2, transformOrigin: '60% 40%',
+  repeat: -1, yoyo: true, duration: 3.2, ease: 'sine.inOut'
+});
+
+// 4) кола на воді — розбігаються й зникають, циклом
+const wakeTL = gsap.timeline({ repeat: -1 });
+wakeTL
+  .fromTo(`.${css.wake1}`, { scaleX: .9, scaleY: .9, opacity:.35 }, { scaleX: 1.15, scaleY: 1.05, opacity: 0, duration: 1.4, ease: 'sine.out' })
+  .fromTo(`.${css.wake2}`, { scaleX: .9, scaleY: .9, opacity:.25 }, { scaleX: 1.2,  scaleY: 1.08, opacity: 0, duration: 1.6, ease: 'sine.out' }, '-=1.1');
       gsap.to(`.${css.waterTex}`, { backgroundPosition: '+=120px 0', repeat: -1, duration: 12, ease: 'none' });
 
       // метелики – плавання “вісімкою”
@@ -66,10 +148,10 @@ export default function FirstScene() {
       rotation: 1.4,
       duration: 2.8, repeat: -1, yoyo: true, ease: 'sine.inOut'
     });
-    gsap.to(`.${css.iris}`, {
-      rotation: -2, x: -0.5,
-      duration: 2.2, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .3
-    });
+    // gsap.to(`.${css.iris}`, {
+    //   rotation: 1.4,
+    //   duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut'
+    // });
     gsap.to(`.${css.lotus}`, {
       rotation: 1.2,
       duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .6
@@ -80,27 +162,59 @@ export default function FirstScene() {
       duration: 2.4, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8
     });
 
+    const el = document.querySelector(`.${css.mamaImg}`);
+    el?.addEventListener('mouseenter', () => gsap.to(el, { rotation: 4, duration:.25, ease:'sine.out' }));
+    el?.addEventListener('mouseleave', () => gsap.to(el, { rotation: 2, duration:.25, ease:'sine.out' }));
+
+
     
     }, root);
     return () => ctx.revert();
   }, []);
 
+// ПІСЛЯ ефекту: підключаємо drag
+  useDraggable(duckRef,  waterRef, root, {
+    onStart: () => duckFloatRef.current?.pause(),
+    onEnd:   () => duckFloatRef.current?.play(),
+  });
+  useDraggable(lotusRef, dragRef, root);
+
+
+    function handleParallax(e){
+    const r = e.currentTarget.getBoundingClientRect();
+    const cx = (e.clientX - r.left)/r.width - 0.5;   // -0.5..0.5
+    const cy = (e.clientY - r.top)/r.height - 0.5;
+    gsap.to(`.${css.lotus}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+    gsap.to(`.${css.daisy}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+    gsap.to(`.${css.iris}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+    gsap.to(`.${css.reeds}`,   { x: cx*4,  y: cy*3,  duration: .5, ease:'sine.out' });
+  }
+
+  
+
 return (
     <div className={css.scene}>
-      <div ref={root} className={css.frame}>
+      <div ref={root} className={css.frame} onMouseMove={handleParallax} >
         
-        <div className={css.water} />
+        <div ref={waterRef} className={css.water} />
         <div className={css.waterTex} style={{ backgroundImage: `url(${waterTex})` }} />
+
+        {/* НОВЕ: ширша зона для drag, її просто використовуємо як bounds */}
+      <div ref={dragRef} className={css.dragArea} aria-hidden />
+
         {/* рослини */}
         <img className={css.reeds} src={reeds} alt="" />
-        <img className={css.lotus} src={lotus} alt="" />
-        <img className={css.iris}  src={iris}  alt="" />
+        <img ref={lotusRef} className={css.lotus + ' ' + css.draggable} src={lotus} alt="Lotus" />        <img className={`${css.iris} ${css.flipX}`} src={iris}  alt="" />
         <img className={css.daisy}  src={daisy}  alt="" />
 
         {/* персонажі */}
-        <img className={css.mama} src={duckMama} alt="Mama duck" />
-        <img className={css.duck} src={duck} alt="Duck" />
-        <img className={css.frog} src={frog} alt="Frog" />
+      <div className={css.mama}>
+        <img className={css.mamaImg} src={duckMama} alt="Mama duck" />
+        {/* хвильки на воді */}
+        <span className={`${css.wake} ${css.wake1}`} aria-hidden="true" />
+        <span className={`${css.wake} ${css.wake2}`} aria-hidden="true" />
+      </div>
+        <img ref={duckRef} className={css.duck + ' ' + css.draggable} src={duck} alt="Duck" />          <img className={css.frog} src={frog} alt="Frog" />
         <img className={css.bflyBlue} src={butterflyBlue} alt="" />
         <img className={css.bflyOrange} src={butterflyOrange} alt="" />
         <img className={css.ladybug} src={ladybug} alt="" />

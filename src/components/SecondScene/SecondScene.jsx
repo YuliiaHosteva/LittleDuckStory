@@ -10,6 +10,16 @@ import forest       from '../../assets/Scene2/Forest.png';
 import birds        from '../../assets/Scene2/Birds.png';
 import deck         from '../../assets/Scene2/Deck.png';
 import ladybugFly   from '../../assets/Scene2/Ladybug_fly.png';
+import daisy from '../../assets/Scene1/daisy.png';
+import watercolor from '../../assets/Scene2/Watercolor.png';
+import stone from '../../assets/Scene2/Stone.png'
+import butterflyRed from '../../assets/Scene1/butterfly_red.png';
+import riverstones from '../../assets/Scene2/River_stones.png';
+import forest3 from '../../assets/Scene2/Forest3.png';
+// import river from '../../assets/Scene2/River.png';
+
+
+
 
 
 export default function SecondScene() {
@@ -34,6 +44,17 @@ export default function SecondScene() {
       gsap.to(`.${css.duck2}`, { y: '+=6', repeat: -1, yoyo: true, duration: 1.8, ease: 'sine.inOut' });
       gsap.to(`.${css.reeds2}`, { rotation: -2, duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
+      // (опціонально) ромашки
+      gsap.to(`.${css.daisy}`, {
+        rotation: 2.4,
+        duration: 2.4, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8
+      });
+
+      // gsap.to(`.${css.butterflyRed}`, {
+      //   rotation: 1.6,
+      //   duration: 1.8, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8
+      // });
+
       // комахи/птахи
       gsap.to(`.${css.ladybug}`, {
         keyframes: [
@@ -43,6 +64,15 @@ export default function SecondScene() {
         ],
         repeat: -1, yoyo: true, ease: 'sine.inOut'
       });
+    gsap.to(`.${css.butterflyRed}`, {
+        keyframes: [
+          { x: -40, y: -20, rotation: 0, duration: 1.1 },
+          { x: 0, y: 0, rotation: 6, duration: 1.1 },
+          { x: 60, y: -30, rotation: -6, duration: 1.1 }
+        ],
+        repeat: -1, yoyo: true
+      });
+
       gsap.to(`.${css.birds}`, {
         x: '+=30', y: '-=6', repeat: -1, yoyo: true, duration: 6, ease: 'sine.inOut'
       });
@@ -50,33 +80,60 @@ export default function SecondScene() {
     return () => ctx.revert();
   }, []);
 
+  function handleParallax(e){
+  const r = e.currentTarget.getBoundingClientRect();
+  const cx = (e.clientX - r.left)/r.width - 0.5;   // -0.5..0.5
+  const cy = (e.clientY - r.top)/r.height - 0.5;
+  gsap.to(`.${css.bgForest}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+  gsap.to(`.${css.bgForest2}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+  gsap.to(`.${css.forest3}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+  gsap.to(`.${css.reeds2}`,   { x: cx*4,  y: cy*3,  duration: .5, ease:'sine.out' });
+  gsap.to(`.${css.duck2}`,    { x: cx*2,  y: cy*1,  duration: .5, ease:'sine.out' });
+}
+
+
   return (
     <div className={css.scene}>
-      <div ref={root} className={css.frame}>
+      <div ref={root} className={css.frame} onMouseMove={handleParallax} >
         {/* дальній план */}
         <img className={css.bgForest} src={forest} alt="" aria-hidden="true" />
+        <img className={css.bgForest2} src={forest} alt="" aria-hidden="true" />
+        <img className={css.forest3} src={forest3} alt="" aria-hidden="true" />
+
         <img className={css.birds}    src={birds}  alt="" aria-hidden="true" />
 
-        {/* вода */}
+        {/* пушинки */}
         <div className={css.pond}>
-        <div className={css.pondFill} />
+        <div className={css.pollen} aria-hidden="true" />
+
+        {/* {вода} */}
+        {/* <img className={css.river} src={river} alt="" /> */}
+
+
 
         {/* тіні на землі */}
         <div className={css.shadow} style={{ left: '18%', bottom: '13%', width: '22%' }} />
         <div className={css.shadow} style={{ right: '20%', bottom: '11%', width: '26%' }} />
         </div>
+
         {/* берег/будинок/очерет */}
         <img className={css.house}  src={beaverHouse} alt="" aria-hidden="true" />
         <img className={css.reeds2} src={reeds2}      alt="" aria-hidden="true" />
-        <img className={css.deck}   src={deck}        alt="" aria-hidden="true" />
+        <img className={`${css.deck} ${css.flipX}`}  src={deck}        alt="" aria-hidden="true" />
+        <img className={css.daisy}  src={daisy}  alt="" />
+        <img className={css.watercolor} src={watercolor} alt="" />
+        <img className={css.stone} src={stone} alt="" />
+        <img className={`${css.riverstones} ${css.flipX}`}  src={riverstones} alt="" />
+
 
         {/* персонажі */}
         <img className={`${css.beaver} ${css.flipX}`} src={beaver} alt="Biber" />
         <img className={css.duck2}  src={duck2}  alt="Küken" />
         <img className={css.ladybug} src={ladybugFly} alt="" aria-hidden="true" />
+        <img className={css.butterflyRed} src={butterflyRed} alt="" />
 
         {/* текст */}
-        <p className={`${css.caption} ${css.topCenter}`}>“Hallo, Lieber Biber!”,ruft das Küken.“Heute ist so ein schöner Tag!”</p>
+        <p className={`${css.caption} ${css.topCenter}`}>“Hallo, Lieber Biber!”, ruft das Küken.“Heute ist so ein schöner Tag!”</p>
       </div>
     </div>
   );

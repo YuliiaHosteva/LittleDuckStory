@@ -10,7 +10,7 @@
 
 .frame{
   position: relative;
-  width: min(96vw, calc(96svh * 16 / 9));  /* головна фішка */
+  width: min(96vw);  /* головна фішка */
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 16px;
@@ -85,8 +85,44 @@
   width: 45%;
   height: auto;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  pointer-events: none;
 }
+
+/* контейнер мами вже позиціонується як у тебе; всередині — картинка на 100% */
+.mamaImg { 
+  width: 100%; 
+  height: auto; 
+  display: block; 
+  pointer-events: auto;
+}
+
+
+/* хвильки під мамою (еліпс і димінг) */
+.wake{
+  position:absolute;
+  left: 50%;
+  top: 78%;          /* підкоригуй під свою позицію мами */
+  width: 42%;
+  height: 10%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 70%);
+  opacity:.35;
+  filter: blur(.3px);
+  pointer-events:none;
+}
+.wake1 {
+
+}
+.wake2{
+  opacity: .25;
+}
+
+/* якщо користувач просить менше анімацій — прибираємо петлі */
+@media (prefers-reduced-motion: reduce){
+  .mamaEye, .wake{ animation: none !important; }
+}
+
 
 .duck {
   position: absolute;
@@ -95,8 +131,38 @@
   width: 12%;
   height: auto;
   transform: translate(-50%, -50%);
-  z-index: 3;
+  z-index: 1;
 }
+
+/* щоб було видно, що елементи перетягуються */
+.duck, .lotus {
+  cursor: grab;
+  user-select: none;
+  touch-action: none; /* важливо для мобіли, щоб PointerEvents працювали */
+}
+
+/* невидима зона, ширша за .water */
+.dragArea{
+  position:absolute;
+  left: 4%;
+  right: 4%;
+  top: 52%;      /* дозволимо трохи вище */
+  bottom: 8%;    /* і не зовсім донизу */
+  pointer-events: none; /* не заважає миші, але має розміри для bounds */
+}
+
+/* щоб drag був приємним і не конфліктував з жестами */
+.draggable{
+  cursor: grab;
+  user-select: none;
+  touch-action: none;        /* важливо для мобіли */
+  -webkit-user-drag: none;
+  will-change: left, top;
+}
+.draggable:active{ 
+  cursor: grabbing; 
+}
+
 
 .reeds {
   position: absolute;
@@ -117,13 +183,13 @@
   transform-origin: 50% 80%;
   width: 18%;
   height: auto;
-  z-index: 3;
+  z-index: 2;
 }
 
 .iris {
   position: absolute;
-  left: 80%;
-  bottom: -8%;
+  left: -4%;
+  bottom: -12%;
   width: 28%;
   transform: none;
   transform-origin: 50% 100%;
@@ -131,15 +197,20 @@
   z-index: 4;
 }
 
+.flipX {
+  transform: scaleX(-1);          /* дзеркально по горизонталі */
+  /* transform-origin: ;      */
+}
+
 .daisy{
  position: absolute;
-  left: -6%;
-  bottom: -5%;
+  left: 65%;
+  bottom: -12%;
   transform: none;
   transform-origin: 50% 100%;
   width: 30%;
   height: auto;
-  z-index: 3;
+  z-index: 4;
 }
 
 .frog {
@@ -179,8 +250,8 @@
 /* метелики + сонечко */
 .bflyBlue   { 
   position:absolute; 
-  left:47%;  
-  top:78%;  
+  left:83%;  
+  top:70%;  
   width:8%; 
   height:auto; 
   z-index: 4;
