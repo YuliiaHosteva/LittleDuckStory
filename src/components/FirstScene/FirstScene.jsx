@@ -17,6 +17,13 @@ import butterflyOrange from '../../assets/Scene1/butterfly_orange.png';
 // import grasshopper from '../../assets/Scene1/grasshopper.png';
 import waterTex from '../../assets/Scene1/water.png';
 import daisy from '../../assets/Scene1/daisy.png';
+import house from '../../assets/Scene1/duck_house.png';
+import flower from '../../assets/Scene2/water_flower.png';
+import grassReeds from '../../assets/Scene2/water_reeds.png';
+import grass from '../../assets/Scene2/Grass.png';
+import lotus2 from '../../assets/Scene1/lotus2.png';
+import waterGrass from '../../assets/Scene2/water_grass.png';
+
 
 
 export default function FirstScene() {
@@ -206,6 +213,14 @@ return (
         <img className={css.reeds} src={reeds} alt="" />
         <img ref={lotusRef} className={css.lotus + ' ' + css.draggable} src={lotus} alt="Lotus" />        <img className={`${css.iris} ${css.flipX}`} src={iris}  alt="" />
         <img className={css.daisy}  src={daisy}  alt="" />
+        <img className={css.flower}  src={flower}  alt="" />
+        <img className={css.grassReeds}  src={grassReeds}  alt="" />
+        <img className={css.grass}  src={grass}  alt="" />
+        <img className={css.lotus2}  src={lotus2}  alt="" />
+        <img className={css.waterGrass}  src={waterGrass}  alt="" />
+
+        {/* дім */}
+        <img className={css.house}  src={house}  alt="" />
 
         {/* персонажі */}
       <div className={css.mama}>
