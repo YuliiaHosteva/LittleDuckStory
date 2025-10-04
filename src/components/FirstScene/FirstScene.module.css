@@ -19,8 +19,8 @@
     radial-gradient(120% 60% at 50% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 60%),
     linear-gradient(180deg,
       hsl(205 100% 92%) 0%,
-      hsl(205 100% 89%) 16%,
-      hsl(205 100% 86%) 32%,
+      hsl(60, 76%, 88%) 16%,
+      hsl(60, 26%, 54%) 32%,
       hsl(205 100% 82%) 48%,
       hsl(205 100% 78%) 64%,
       hsl(205 100% 74%) 80%,
@@ -165,8 +165,8 @@
 
 .house {
   position: absolute;
-  right: -20%;
-  top: 25%;
+  right: -23%;
+  top: 22%;
   transform: translate(-50%, -50%);
   width: 35%;
   opacity: .9;
@@ -186,11 +186,11 @@
 
 .grassReeds{
   position: absolute;
-  right: -30%;
-  top: -2%;
-  transform: translate(-50%, -50%);
+  right: -3%;
+  top: -33%;
+  transform-origin: 50% 50%;
   width: 60%;
-  opacity: .78;
+  opacity: .68;
   height: auto;
 }
 
@@ -257,27 +257,29 @@
 
 .frog {
   position: absolute;
-  right: 65%;
+  left: 16%;
   top: 25%;
-  transform: translate(-50%, -50%);
+  transform-origin: 50% 100%;
   width: 7%;
   height: auto;
+  opacity: .76;
 }
 
 .lotus2{
   position: absolute;
-  right: 57%;
-  top: 20%;
-  transform: translate(-50%, -50%);
+  bottom: 5%;
+  right: 32%;
+  /* transform: translate(-50%, -50%); */
   width: 18%;
   height: auto;
-  opacity: .76;
+  z-index: 1;
+  /* opacity: .76; */
 }
 
 .waterGrass{
   position: absolute;
   right: 59%;
-  top: 19%;
+  top: 23%;
   transform: translate(-50%, -50%);
   width: 30%;
   height: auto;

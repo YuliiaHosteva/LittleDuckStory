@@ -194,7 +194,12 @@ wakeTL
     gsap.to(`.${css.lotus}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
     gsap.to(`.${css.daisy}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
     gsap.to(`.${css.iris}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
-    gsap.to(`.${css.reeds}`,   { x: cx*4,  y: cy*3,  duration: .5, ease:'sine.out' });
+    gsap.to(`.${css.reeds}`, { x: cx*4,  y: cy*3,  duration: .5, ease:'sine.out' });
+    gsap.to(`.${css.waterGrass}`, {x: cx*8, y: cy*6, duration: .5, ease:'sine.out'});
+    gsap.to(`.${css.grassReeds}`, {x: cx*8, y: cy*4, duration: .5, ease:'sine.out'});
+    gsap.to(`.${css.frog}`, { x: cx*2,  y: cy*1,  duration: .5, ease:'sine.out' });
+    
+
   }
 
   
