@@ -15,6 +15,12 @@ import duck from '../../assets/Scene3/duck3.png';
 import poppy from '../../assets/Scene3/Poppy.png';
 import grass from '../../assets/Scene1/grass2.png';
 import grass2 from '../../assets/Scene1/grass2.png';
+import bgFlawers from '../../assets/Scene3/bgFlowers.png';
+import flora from '../../assets/Scene3/flora.png';
+import muchrooms from '../../assets/Scene3/muchrooms.png';
+import stump from '../../assets/Scene3/stump.png';
+import stone from '../../assets/Scene3/stone.png';
+import stone2 from '../../assets/Scene3/stone.png';
 
 
 export default function ThirdScene() {
@@ -49,48 +55,91 @@ export default function ThirdScene() {
       // їжачок — легке “дихання”
       gsap.to(`.${css.hedgehog}`, { y: '+=3', repeat: -1, yoyo: true, duration: 2.4, ease: 'sine.inOut' });
 
-      // равлик — повільне ковзання вперед-назад
-      gsap.to(`.${css.snail}`, { x: '+=14', repeat: -1, yoyo: true, duration: 6, ease: 'sine.inOut' });
+      // равлик 
+    const frameW  = root.current.getBoundingClientRect().width;
+    const snailEl = document.querySelector(`.${css.snail}`);
+    const snailW  = snailEl?.getBoundingClientRect().width || 80; // запасне
 
+    gsap.fromTo(
+      snailEl,
+      { x: -snailW },                     // трохи за лівим краєм
+      {
+        x: frameW + snailW,               // трохи за правий край
+        duration: 50,                     // швидкість руху
+        ease: 'none',
+        repeat: -1                        // нескінченно
+        // y можна зафіксувати у CSS, а тут не чіпати
+      }
+    );
       // бджоли — кружляння по еліпсу
-      const bees = gsap.utils.toArray(`.${css.bee}`);
-      bees.forEach((el, i) => {
-        gsap.to(el, {
-          motionPath: {
-            path: [{x: -20, y: -10}, {x: 0, y: 0}, {x: 24, y: -6}, {x: 0, y: 0}],
-            curviness: 0
-          },
-          repeat: -1,
-          duration: 2.2 + i * 0.2,
-          ease: 'sine.inOut',
-          yoyo: true
-        });
-        gsap.to(el, { rotation: 10, yoyo: true, repeat: -1, duration: .25, ease: 'sine.inOut' });
-      });
+    const bees = gsap.utils.toArray(`.${css.bee}`);
+    bees.forEach((el, i) => {
+    gsap.to(el, {
+    keyframes: [
+      { x: -20, y: -10, duration: 0.6 },
+      { x: 0,   y: 0,   duration: 0.6 },
+      { x: 24,  y: -6,  duration: 0.6 },
+      { x: 0,   y: 0,   duration: 0.6 }
+    ],
+    repeat: -1,
+    ease: 'sine.inOut',
+    yoyo: true,
+    delay: i * 0.2
+    });
+    gsap.to(el, { rotation: 10, yoyo: true, repeat: -1, duration: .25, ease: 'sine.inOut' });
+    });
+
     }, root);
     return () => ctx.revert();
   }, []);
 
+      function handleParallax(e){
+      const r = e.currentTarget.getBoundingClientRect();
+      const cx = (e.clientX - r.left)/r.width - 0.5;   // -0.5..0.5
+      const cy = (e.clientY - r.top)/r.height - 0.5;
+      gsap.to(`.${css.blueflowers}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+      gsap.to(`.${css.yellowflowers}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+      gsap.to(`.${css.wildflowers}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
+      gsap.to(`.${css.chrysanthemum}`, { x: cx*4,  y: cy*3,  duration: .5, ease:'sine.out' });
+      gsap.to(`.${css.lavender}`, {x: cx*8, y: cy*6, duration: .5, ease:'sine.out'});
+      gsap.to(`.${css.dandelion}`, {x: cx*8, y: cy*4, duration: .5, ease:'sine.out'});
+      gsap.to(`.${css.poppy}`, { x: cx*2,  y: cy*1,  duration: .5, ease:'sine.out' });
+      gsap.to(`.${css.duck}`, {x: cx*8, y: cy*4, duration: .5, ease:'sine.out'});
+      gsap.to(`.${css.hedgehog}`, { x: cx*2,  y: cy*1,  duration: .5, ease:'sine.out' });
+  
+    }
+  
+
   return (
     <div className={css.scene}>
-      <div ref={root} className={css.frame}>
+      <div ref={root} className={css.frame} onMouseMove={handleParallax}>
         {/* фон */}
         <div className={`${css.layer} ${css.bg}`} />
 
         {/* далекі дерева/квіти */}
         <img className={`${css.layer} ${css.flowersFar}`} src={wildflowers} alt="" />
+        <img className={`${css.layer} ${css.flowersFar} ${css.bgFlawers}`} src={bgFlawers} alt="" />
+        <img className={`${css.layer} ${css.flowersFar} ${css.flora}`} src={flora} alt="" />
+
 
         {/* середній план квітів (мікс) */}
         <img className={`${css.layer} ${css.flowersMid} ${css.dandelion}`}  src={dandelion} alt="" />
         <img className={`${css.layer} ${css.flowersMid} ${css.lavender}`}     src={lavender} alt="" />
         <img className={`${css.layer} ${css.flowersMid} ${css.blueflowers}`}    src={blueflowers} alt="" />
         <img className={`${css.layer} ${css.flowersMid} ${css.yellowflowers}`} src={yellowflowers} alt="" />
-
+        
         {/* передній план квітів */}
         <img className={`${css.layer} ${css.flowersNear} ${css.chrysanthemum}`}  src={chrysanthemum} alt="" />
         <img className={`${css.layer} ${css.flowersNear} ${css.poppy}`} src={poppy} alt="" />
         <img className={`${css.layer}  ${css.grass}`} src={grass} alt="" />
         <img className={`${css.layer}  ${css.grass2}`} src={grass2} alt="" />
+        <img className={`${css.layer}  ${css.stone2}`} src={stone2} alt="" />
+        <img className={`${css.layer}  ${css.stone}`} src={stone} alt="" />
+
+        <img className={`${css.layer}  ${css.stump}`} src={stump} alt="" />
+        <img className={`${css.layer}  ${css.muchrooms}`} src={muchrooms} alt="" />
+
+        
 
         {/* персонажі */}
         <img className={`${css.hedgehog}`} src={hedgehog} alt="Igel" />
@@ -104,7 +153,7 @@ export default function ThirdScene() {
 
         {/* текст */}
         <p className={css.caption}>
-          “Hallo, lieber Igel!”,<br/>
+          “Hallo, lieber Igel!”,
           ruft das Küken.<br/>
           “Weißt du, dass ich dich richtig mag?”
         </p>
