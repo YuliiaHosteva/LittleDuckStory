@@ -4,11 +4,11 @@ import { gsap } from 'gsap';
 // твої сцени
 import FirstScene from '../FirstScene/FirstScene.jsx';
 import SecondScene from '../SecondScene/SecondScene.jsx';
-// якщо другої ще нема — тимчасово заміни на FirstScene
+import ThirdScene from '../ThirdScene/ThirdScene.jsx';
 
 import css from './Story.module.css';
 
-const scenes = [FirstScene, SecondScene]; // додаватимеш: Scene3, Scene4
+const scenes = [FirstScene, SecondScene, ThirdScene]; 
 
 export default function Story() {
   const [idx, setIdx] = useState(0);
