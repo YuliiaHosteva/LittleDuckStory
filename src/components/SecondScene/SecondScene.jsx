@@ -16,7 +16,11 @@ import stone from '../../assets/Scene2/Stone.png'
 import butterflyRed from '../../assets/Scene1/butterfly_red.png';
 import riverstones from '../../assets/Scene2/River_stones.png';
 import forest3 from '../../assets/Scene2/Forest3.png';
-// import river from '../../assets/Scene2/River.png';
+import boat from '../../assets/Scene2/boat.png';
+import flora from '../../assets/Scene3/flora.png';
+import tree from '../../assets/Scene2/Tree.png';
+
+
 
 
 
@@ -44,11 +48,16 @@ export default function SecondScene() {
       gsap.to(`.${css.duck2}`, { y: '+=6', repeat: -1, yoyo: true, duration: 1.8, ease: 'sine.inOut' });
       gsap.to(`.${css.reeds2}`, { rotation: -2, duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
-      // (опціонально) ромашки
+      // вітер
       gsap.to(`.${css.daisy}`, {
         rotation: 2.4,
         duration: 2.4, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8
       });
+            gsap.to(`.${css.flora}`, {
+        rotation: -2,
+        duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8
+      });
+
 
       // gsap.to(`.${css.butterflyRed}`, {
       //   rotation: 1.6,
@@ -99,15 +108,15 @@ export default function SecondScene() {
         <img className={css.bgForest} src={forest} alt="" aria-hidden="true" />
         <img className={css.bgForest2} src={forest} alt="" aria-hidden="true" />
         <img className={css.forest3} src={forest3} alt="" aria-hidden="true" />
-
-        <img className={css.birds}    src={birds}  alt="" aria-hidden="true" />
+        <img className={css.boat} src={boat} alt="" />
+        <img className={css.flora} src={flora} alt="" />
+        <img className={css.tree} src={tree} alt="" />
+        <img className={css.birds} src={birds}  alt="" aria-hidden="true" />
 
         {/* пушинки */}
         <div className={css.pond}>
         <div className={css.pollen} aria-hidden="true" />
 
-        {/* {вода} */}
-        {/* <img className={css.river} src={river} alt="" /> */}
 
 
 
@@ -123,6 +132,7 @@ export default function SecondScene() {
         <img className={css.daisy}  src={daisy}  alt="" />
         <img className={css.watercolor} src={watercolor} alt="" />
         <img className={css.stone} src={stone} alt="" />
+        <div className={css.shoreFill}/>
         <img className={`${css.riverstones} ${css.flipX}`}  src={riverstones} alt="" />
 
 

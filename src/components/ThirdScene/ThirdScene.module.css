@@ -114,8 +114,8 @@
 
 .stump {
   left: -5%; 
-  top: 42%;
-  width: 25%; 
+  top: 36%;
+  width: 30%; 
   height:auto; 
 }
 
@@ -146,8 +146,8 @@
 .hedgehog{
   position:absolute; 
   left: 15%; 
-  bottom: 12%;
-  width: 36%; 
+  bottom: 4%;
+  width: 40%; 
   height:auto; 
   transform: none;
 }

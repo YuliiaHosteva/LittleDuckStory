@@ -19,7 +19,7 @@ background:
       #e5faff 0%,
       #addfff 28%,
       #62b3e2 56%,
-      #82783d 78%,
+      #aba372 78%,
       #2b2305 100%
     );
 }
@@ -64,17 +64,17 @@ background:
   top:-5%;
   width: 45%; 
   height:auto; 
-  opacity:.45;
+  opacity:.6;
   filter: saturate(110%) blur(.2px);
   z-index:1;
 }
 .bgForest2{
   position:absolute; 
-  left:15%; 
-  top:-2%;
-  width: 38%; 
+  left:42%; 
+  top:4%;
+  width: 32%; 
   height:auto; 
-  opacity:.45;
+  opacity:.6;
   filter: saturate(110%) blur(.2px);
   z-index:1;
 }
@@ -82,10 +82,10 @@ background:
 .forest3 {
   position:absolute; 
   left:65%; 
-  top:2%;
-  width: 35%; 
+  top:-1%;
+  width: 38%; 
   height:auto; 
-  opacity:.65;
+  opacity:.6;
   filter: saturate(110%) blur(.2px);
   z-index:1;
 }
@@ -98,6 +98,36 @@ background:
   height:auto; 
   opacity:.6; 
   z-index:2;
+}
+
+.boat{
+  position:absolute; 
+  left: 44%; 
+  top: 36%;
+  width: 20%; 
+  height:auto; 
+  opacity:.8; 
+  z-index:3;
+}
+
+.flora{
+  position:absolute; 
+  left: 27%; 
+  top: 38%;
+  width: 15%; 
+  height:auto; 
+  z-index:1;
+  opacity: .8;
+}
+
+.tree{
+  position:absolute; 
+  left:-4%; 
+  top:24%;
+  width: 25%; 
+  height:auto; 
+  opacity:.6;
+  z-index:1;
 }
 
 /* предмети берега */
@@ -117,8 +147,8 @@ background:
   bottom:25%;
   width: 20%; 
   height:auto; 
-  opacity: .7;
-  z-index:3;
+  opacity: .8;
+  z-index: 3;
 }
 .reeds2{
   position:absolute; 
@@ -135,7 +165,7 @@ background:
   bottom: -2%;
   width: 30%; 
   height:auto; 
-  z-index:3;
+  z-index: 4;
 }
 
 .watercolor {
@@ -152,11 +182,20 @@ background:
 /* персонажі */
 .beaver{
   position:absolute; 
-  left: 3%; 
+  left: -1%; 
   bottom: 6%;
-  width: 32%; 
+  width: 35%; 
   height:auto; 
   z-index:4;
+}
+
+.duck2{
+  position:absolute; 
+  left: 58%; 
+  bottom: 16%;
+  width: 18%; 
+  height:auto; 
+  z-index:3;
 }
 
 .flipX {
@@ -175,6 +214,8 @@ background:
   z-index: 4;
 }
 
+/* берег */
+
 .stone {
   position: absolute;
   left: 55%;
@@ -186,25 +227,36 @@ background:
   z-index: 3;
 }
 
+.shoreFill{
+  position:absolute;
+  left:46%;             
+  top:37%;
+  width:28%;
+  height:30%;
+  transform: rotate(-10deg);
+  z-index: 0;           
+  pointer-events:none;
+
+  background: #aba372;
+
+  /* плавний край у бік води */
+  -webkit-mask-image: radial-gradient(120% 90% at 0% 100%, black 55%, transparent 75%);
+          mask-image: radial-gradient(120% 90% at 0% 100%, black 55%, transparent 75%);
+  opacity: .6;
+}
+
 .riverstones {
   position: absolute;
-  left: 40%;
-  bottom: -4%;
+  left: 37%;
+  bottom: -2%;
   transform-origin: 50% 100%;
-  width: 30%;
+  width: 28%;
   height: auto;
-  z-index: 3;
+  z-index: 2;
+  opacity: .8;
 }
 
 
-.duck2{
-  position:absolute; 
-  left: 55%; 
-  bottom: 16%;
-  width: 15%; 
-  height:auto; 
-  z-index:4;
-}
 
 /* комаха */
 .ladybug{
@@ -251,15 +303,24 @@ background:
 
 /* підпис */
 .caption{
-  position:absolute; margin:0; color:#fff; font-weight:700;
+  position:absolute; 
+  margin:0; 
+  color:#fff; 
+  font-weight:700;
   font-family: "Comfortaa", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   font-size: clamp(18px, 2.6vmax, 34px);
-  padding: 8px 14px; border-radius: 12px;
-  background: rgba(10,25,41,.28); text-shadow: 0 3px 10px rgba(0,0,0,.45);
+  padding: 8px 14px; 
+  border-radius: 12px;
+  background: rgba(10,25,41,.28); 
+  text-shadow: 0 3px 10px rgba(0,0,0,.45);
   backdrop-filter: saturate(130%) blur(2px);
   z-index:5;
 }
-.topCenter{ top:14px; left:50%; transform: translateX(-50%); }
+.topCenter{ 
+  top:14px; 
+  left:50%; 
+  transform: translateX(-50%); 
+}
 
 /* адаптив */
 @media (max-width: 768px) {

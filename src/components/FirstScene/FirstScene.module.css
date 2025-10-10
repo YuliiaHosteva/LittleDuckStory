@@ -33,11 +33,10 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 6;              /* поверх усього */
-  opacity: .08;            /* для перевірки можеш тимчасово поставити .16 */
-  mix-blend-mode: overlay; /* зерно майже невидиме, але прибирає banding */
+  z-index: 6;             
+  opacity: .08;           
+  mix-blend-mode: overlay; /* прибирає banding */
 
-  /* ВАРІАНТ 1: SVG-noise (краще) */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
@@ -77,7 +76,7 @@
           mask-image: linear-gradient(to bottom, transparent 0, black 36px, black calc(100% - 12px), transparent 100%);
 }
 
-/* РОЗТАШУВАННЯ ЕЛЕМЕНТІВ (у відсотках від рамки) */
+/* РОЗТАШУВАННЯ ЕЛЕМЕНТІВ */
 .mama {
   position: absolute;
   left: 43%;
@@ -88,7 +87,6 @@
   pointer-events: none;
 }
 
-/* контейнер мами вже позиціонується як у тебе; всередині — картинка на 100% */
 .mamaImg { 
   width: 100%; 
   height: auto; 
@@ -96,12 +94,11 @@
   pointer-events: auto;
 }
 
-
 /* хвильки під мамою (еліпс і димінг) */
 .wake{
   position:absolute;
   left: 50%;
-  top: 78%;          /* підкоригуй під свою позицію мами */
+  top: 78%;      
   width: 42%;
   height: 10%;
   transform: translate(-50%, -50%);
@@ -118,7 +115,6 @@
   opacity: .25;
 }
 
-/* якщо користувач просить менше анімацій — прибираємо петлі */
 @media (prefers-reduced-motion: reduce){
   .mamaEye, .wake{ animation: none !important; }
 }
@@ -134,54 +130,36 @@
   z-index: 1;
 }
 
-/* щоб було видно, що елементи перетягуються */
-.duck, .lotus {
-  cursor: grab;
-  user-select: none;
-  touch-action: none; /* важливо для мобіли, щоб PointerEvents працювали */
-}
 
 /* невидима зона, ширша за .water */
 .dragArea{
   position:absolute;
   left: 4%;
   right: 4%;
-  top: 52%;      /* дозволимо трохи вище */
-  bottom: 8%;    /* і не зовсім донизу */
-  pointer-events: none; /* не заважає миші, але має розміри для bounds */
+  top: 52%;     
+  bottom: 8%;  
+  pointer-events: none; 
 }
 
-/* щоб drag був приємним і не конфліктував з жестами */
-.draggable{
-  cursor: grab;
-  user-select: none;
-  touch-action: none;        /* важливо для мобіли */
-  -webkit-user-drag: none;
-  will-change: left, top;
-}
-.draggable:active{ 
-  cursor: grabbing; 
-}
 
-.house {
+.stump {
   position: absolute;
-  right: -23%;
-  top: 22%;
+  right: 53%;
+  top: 30%;
   transform: translate(-50%, -50%);
-  width: 35%;
-  opacity: .9;
+  width: 25%;
+  opacity: .8;
   height: auto;
 }
 
 .flower {
   position: absolute;
-  right: 7%;
-  top: 30%;
+  right: -32%;
+  top: 72%;
   transform: translate(-50%, -50%);
-  width: 25%;
-  /* opacity: .78; */
+  width: 45%;
   height: auto;
-  z-index: 1;
+  z-index: 3;
 }
 
 .grassReeds{
@@ -190,7 +168,7 @@
   top: -33%;
   transform-origin: 50% 50%;
   width: 60%;
-  opacity: .68;
+  opacity: .9;
   height: auto;
 }
 
@@ -228,41 +206,46 @@
   z-index: 2;
 }
 
-.iris {
+.pos{
   position: absolute;
-  left: -4%;
-  bottom: -12%;
-  width: 28%;
-  transform: none;
+  left: 10%;
+  bottom: -38%;
+  width: 25%;
+  transform: translate(-50%, -50%);
   transform-origin: 50% 100%;
   height: auto;
-  z-index: 4;
+  z-index: 3;
 }
 
-.flipX {
-  transform: scaleX(-1);          /* дзеркально по горизонталі */
-  /* transform-origin: ;      */
+.iris {
+display: block;
+width: 100%;
+height: auto;
+transform-origin: 50% 50%;
+transform: scaleX(-1);
 }
+
 
 .daisy{
  position: absolute;
-  left: 65%;
+  left: 66%;
   bottom: -12%;
   transform: none;
   transform-origin: 50% 100%;
-  width: 30%;
+  width: 20%;
   height: auto;
   z-index: 4;
 }
 
 .frog {
   position: absolute;
-  left: 16%;
-  top: 25%;
+  left: -2%;
+  top: -3%;
   transform-origin: 50% 100%;
-  width: 7%;
+  width: 15%;
   height: auto;
-  opacity: .76;
+  opacity: .9;
+  z-index: 1;
 }
 
 .lotus2{
@@ -283,7 +266,7 @@
   transform: translate(-50%, -50%);
   width: 30%;
   height: auto;
-  opacity: .76;
+  opacity: .9;
 }
 
 .caption{
@@ -333,6 +316,17 @@
   left:10%;  
   bottom:14%; 
   width:3%;  
+  height:auto; 
+  z-index: 4;
+}
+
+.dragonfly{
+  position:absolute; 
+  left:50%;  
+  top:50%;  
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  width:8%; 
   height:auto; 
   z-index: 4;
 }
