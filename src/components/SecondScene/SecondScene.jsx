@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import css from './SecondScene.module.css';
 
+
 import beaver       from '../../assets/Scene2/Beaver.png';
 import duck2        from '../../assets/Scene2/Duck2.png';
 import reeds2       from '../../assets/Scene2/Reeds2.png';
@@ -19,15 +20,22 @@ import forest3 from '../../assets/Scene2/Forest3.png';
 import boat from '../../assets/Scene2/boat.png';
 import flora from '../../assets/Scene3/flora.png';
 import tree from '../../assets/Scene2/Tree.png';
-
-
-
-
+import road from '../../assets/Scene2/road.png';
+import cereals from '../../assets/Scene2/cereals.png';
+import m1 from '../../assets/Scene2/mosquito1.png';
+import m2 from '../../assets/Scene2/mosquito2.png';
+import m3 from '../../assets/Scene2/mosquito3.png';
+import m4 from '../../assets/Scene2/mosquito4.png';
+import m5 from '../../assets/Scene2/mosquito5.png';
 
 
 
 export default function SecondScene() {
   const root = useRef(null);
+  const mosqLayerRef = useRef(null);
+  const imgRefs = useRef([]);
+  const MOSQ = [m1, m2, m3, m4, m5];
+
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -46,7 +54,6 @@ export default function SecondScene() {
       // нескінченні петлі
       gsap.to(`.${css.beaver}`, { y: '+=4', repeat: -1, yoyo: true, duration: 2.2, ease: 'sine.inOut' });
       gsap.to(`.${css.duck2}`, { y: '+=6', repeat: -1, yoyo: true, duration: 1.8, ease: 'sine.inOut' });
-      gsap.to(`.${css.reeds2}`, { rotation: -2, duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
       // вітер
       gsap.to(`.${css.daisy}`, {
@@ -58,11 +65,15 @@ export default function SecondScene() {
         duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8
       });
 
+      gsap.to(`.${css.cereals}`, {
+        rotation: 1.8,
+        duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8
+      });
 
-      // gsap.to(`.${css.butterflyRed}`, {
-      //   rotation: 1.6,
-      //   duration: 1.8, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .8
-      // });
+      gsap.to(`.${css.reeds2}`, { 
+        rotation: -2, 
+        duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
 
       // комахи/птахи
       gsap.to(`.${css.ladybug}`, {
@@ -85,7 +96,81 @@ export default function SecondScene() {
       gsap.to(`.${css.birds}`, {
         x: '+=30', y: '-=6', repeat: -1, yoyo: true, duration: 6, ease: 'sine.inOut'
       });
-    }, root);
+
+// ---- MOSQUITO SWARM (safe: без плагінів, без RO, з home-центром) ----
+const layer = mosqLayerRef.current;
+const items = imgRefs.current.filter(Boolean);
+
+if (layer && items.length) {
+  // локальний random, що повертає ЧИСЛО (ніяких "()")
+  const rnd = (min, max) => gsap.utils.random(min, max);
+
+  // розміри шару; якщо раптом 0 — даємо мінімум, щоб не впасти
+  const W = layer.clientWidth  || 1;
+  const H = layer.clientHeight || 1;
+
+  // радіус «хмари» навколо home
+  const R  = Math.min(W, H) * 0.28;
+  const Ry = R * 0.65; // по Y трохи менше, щоб пляма була еліпсом
+
+  items.forEach((el) => {
+    // фіксований центр роєння для конкретного комара
+    const home = {
+      x: rnd(-W * 0.10,  W * 0.10),
+      y: rnd(-H * 0.06,  H * 0.06),
+    };
+
+    // старт прямо з home
+    gsap.set(el, {
+      x: home.x,
+      y: home.y,
+      rotation: rnd(-12, 12),
+      scale: rnd(0.85, 1.1),
+      opacity: rnd(0.75, 0.95)
+    });
+
+    // дрібне «дзижчання» — чистий yoyo, НЕ нарощує дрейф
+    gsap.to(el, {
+      x: `+=${rnd(-12, 12)}`,
+      y: `+=${rnd(-8, 8)}`,
+      rotation: `+=${rnd(-16, 16)}`,
+      duration: rnd(0.45, 0.8),
+      repeat: -1, yoyo: true, ease: 'sine.inOut'
+    });
+
+    // повільне блукання: до нової точки біля home
+    const wander = () => {
+      const tx = home.x + rnd(-R,  R);
+      const ty = home.y + rnd(-Ry, Ry);
+      gsap.to(el, {
+        x: tx, y: ty,
+        duration: rnd(4.5, 7),
+        ease: 'none',
+        onComplete: wander
+      });
+    };
+    wander();
+
+    // періодичне «повернення додому», щоб ніколи не розповзались назовсім
+    const recenter = () => {
+      gsap.to(el, {
+        x: home.x, y: home.y,
+        duration: 0.8, ease: 'sine.inOut',
+        onComplete: () => gsap.delayedCall(rnd(2, 4), wander)
+      });
+      gsap.delayedCall(rnd(10, 14), recenter);
+    };
+    gsap.delayedCall(rnd(10, 14), recenter);
+
+    // легке мерехтіння
+    gsap.to(el, {
+      opacity: `+=${rnd(-0.12, -0.05)}`,
+      duration: rnd(0.25, 0.45),
+      repeat: -1, yoyo: true, ease: 'sine.inOut'
+    });
+  });
+}
+}, root);
     return () => ctx.revert();
   }, []);
 
@@ -97,7 +182,8 @@ export default function SecondScene() {
   gsap.to(`.${css.bgForest2}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
   gsap.to(`.${css.forest3}`, { x: cx*8,  y: cy*6,  duration: .5, ease:'sine.out' });
   gsap.to(`.${css.reeds2}`,   { x: cx*4,  y: cy*3,  duration: .5, ease:'sine.out' });
-  gsap.to(`.${css.duck2}`,    { x: cx*2,  y: cy*1,  duration: .5, ease:'sine.out' });
+  gsap.to(`.${css.mosqLayer}`,    { x: cx*6,  y: cy*4,  duration: .5, ease:'sine.out' });
+
 }
 
 
@@ -117,9 +203,6 @@ export default function SecondScene() {
         <div className={css.pond}>
         <div className={css.pollen} aria-hidden="true" />
 
-
-
-
         {/* тіні на землі */}
         <div className={css.shadow} style={{ left: '18%', bottom: '13%', width: '22%' }} />
         <div className={css.shadow} style={{ right: '20%', bottom: '11%', width: '26%' }} />
@@ -134,14 +217,28 @@ export default function SecondScene() {
         <img className={css.stone} src={stone} alt="" />
         <div className={css.shoreFill}/>
         <img className={`${css.riverstones} ${css.flipX}`}  src={riverstones} alt="" />
-
+        <img className={css.road} src={road} alt="" />
+        <img className={css.cereals} src={cereals} alt="" />
 
         {/* персонажі */}
         <img className={`${css.beaver} ${css.flipX}`} src={beaver} alt="Biber" />
         <img className={css.duck2}  src={duck2}  alt="Küken" />
         <img className={css.ladybug} src={ladybugFly} alt="" aria-hidden="true" />
         <img className={css.butterflyRed} src={butterflyRed} alt="" />
+        {/* комарі */}
+        <div ref={mosqLayerRef} className={css.mosqLayer}>
+          {MOSQ.map((src, i)=> (
+          <img
+          key={i}
+          ref={el => (imgRefs.current[i] = el)}
+          src={src}
+          alt=""
+          className={css.mosq}
+          />
+          ))}
+          </div>
 
+        
         {/* текст */}
         <p className={`${css.caption} ${css.topCenter}`}>“Hallo, Lieber Biber!”, ruft das Küken.“Heute ist so ein schöner Tag!”</p>
       </div>

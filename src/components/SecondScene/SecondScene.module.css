@@ -161,9 +161,9 @@ background:
 }
 .deck{
   position:absolute; 
-  left: 70%; 
+  left: 65%; 
   bottom: -2%;
-  width: 30%; 
+  width: 33%; 
   height:auto; 
   z-index: 4;
 }
@@ -177,6 +177,25 @@ background:
   width: 25%;
   height: auto;
   z-index: 5;
+}
+
+.road{
+  position:absolute; 
+  left:67%; 
+  top:42%;
+  width: 28%; 
+  height:auto; 
+  filter: saturate(110%) blur(.2px);
+  z-index:1;
+}
+
+.cereals{
+  position:absolute; 
+  left: 60%; 
+  bottom: 12%;
+  width: 45%; 
+  height:auto; 
+  z-index: 2;
 }
 
 /* персонажі */
@@ -206,10 +225,10 @@ background:
 .daisy{
  position: absolute;
   left: 70%;
-  bottom: -12%;
+  bottom: -8%;
   transform: none;
   transform-origin: 50% 100%;
-  width: 20%;
+  width: 16%;
   height: auto;
   z-index: 4;
 }
@@ -273,6 +292,29 @@ background:
   bottom: 12%;
   width: 3%; 
   height:auto; 
+  z-index:4;
+}
+
+.mosqLayer{
+  position: absolute;
+  inset: 0;
+  width: 35%; 
+  left: 2%;
+  top: -15%;
+  transform: translate(-50% -50%);
+  overflow: visible;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.mosq{
+  position:absolute; 
+  left: 50%; 
+  top: 50%;
+  height:auto;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0, .25));
+  transform: translate(-50% -50%);
+  will-change: transform, opacity; 
   z-index:4;
 }
 /* пушинки */
