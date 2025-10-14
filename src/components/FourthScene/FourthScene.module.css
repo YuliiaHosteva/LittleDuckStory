@@ -1,0 +1,293 @@
+.scene{
+  width:100vw; 
+  height:100svh;
+  display:grid; 
+  place-items:center;
+  background:#bfe6ff;
+}
+
+.frame{
+  position:relative;
+  width:min(96vw, 1280px);
+  aspect-ratio:16/9;
+  overflow:hidden;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+  /* небо → вода */
+  background:
+    radial-gradient(120% 70% at 50% -25%, rgba(255,255,255,.5) 0, rgba(255,255,255,0) 60%),
+    linear-gradient(180deg,
+      hsl(200 100% 92%) 0%,
+      hsl(200 100% 86%) 20%,
+      hsl(200 100% 76%) 36%,
+      hsl(200 100% 64%) 52%,
+      hsl(205 90% 52%) 72%,
+      hsl(210 90% 42%) 100%);
+}
+
+/* легка імла/відблиски у воді */
+.haze{
+  position:absolute; 
+  inset:0;
+  background:
+    radial-gradient(40% 18% at 50% 44%, rgba(255,255,255,.35) 0, rgba(255,255,255,0) 100%),
+    radial-gradient(60% 22% at 48% 58%, rgba(255,255,255,.18) 0, rgba(255,255,255,0) 100%);
+  mix-blend-mode: screen;
+  opacity:.45;
+  pointer-events:none;
+}
+
+.noise{
+  position:absolute; 
+  inset:0; 
+  pointer-events:none;
+  z-index:6; 
+  opacity:.06; 
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+
+.sun{ 
+    position:absolute; 
+    right:6%; 
+    top:2%; 
+    width:9%; 
+    height:auto; 
+    opacity:.9; 
+    z-index: 2;
+}
+.cloud{ 
+    position:absolute; 
+    left:8%; 
+    top:-4%; 
+    width:16%; 
+    height:auto; 
+    opacity:.9; 
+    z-index: 2;
+}
+
+.bg{
+  position:absolute; 
+  inset:0; 
+  z-index:0; 
+  pointer-events:none;
+  background:
+    /* блиск поверхні зверху */
+    radial-gradient(140% 80% at 50% -10%, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 30%),
+    /* сам колір води */
+    linear-gradient(180deg,
+      #c9f2ff 0%,
+      #7de2f0 24%,
+      #38c7de 58%,
+      #1aa9c7 78%,
+      #128faf 100%);
+}
+
+.bg::after{
+  /* теплий пісок знизу */
+  content:""; 
+  position:absolute; 
+  left:0; 
+  right:0; 
+  bottom:0; 
+  height:55%;
+  background: linear-gradient(180deg,
+    rgba(238,224,150,0) 0%,
+    rgba(238,224,150,.18) 30%,
+    rgba(224,199,112,.35) 55%,
+    rgba(204,173,80,.55) 100%);
+  mix-blend-mode: soft-light;   /* м’якше змішування */
+}
+.bg::before{
+  /* тонка лінія-рефлекс на поверхні */
+  content:""; 
+  position:absolute; 
+  left:0; 
+  right:0; 
+  top:29%; 
+  height:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.8), rgba(255,255,255,0));
+  opacity:.55;
+}
+.swamp{
+  position:absolute; 
+  width:100%; 
+  height:100%; 
+  object-fit: cover;
+  inset: 0;
+  z-index: 0;
+  filter: hue-rotate(-6deg) saturate(1.05) brightness(1.05);
+}
+
+.bottom{
+    position:absolute; 
+    right:40%; 
+    bottom:-1%; 
+    width:25%; 
+    height:auto; 
+    opacity:.9;
+    z-index: 2;
+}
+
+/* рослини */
+.plant{ 
+    position:absolute; 
+    width:auto; 
+    height:auto; 
+    opacity:0; 
+}
+.pL1{ 
+    left:-7%;  
+    width:26%; 
+    bottom: -6%;
+}
+.pL2{ 
+    left:1%; 
+    width:24%; 
+    bottom: -6%;
+    z-index: 2;
+}
+.pL3{ 
+    left:82%; 
+    width:24%; 
+    bottom: -7%;
+    z-index: 2;
+
+}
+.pR1{ 
+    right:56%; 
+    width:54%; 
+    bottom: -6%;
+    z-index: 2;
+
+}
+.pR2{ 
+    right:-4%; 
+    width:54%; 
+    bottom: -32%;
+
+}
+.pR3{ 
+    right:12%; 
+    width:54%; 
+    bottom: -34%;
+
+}
+
+/* риби */
+.fish{ 
+    position:absolute; 
+    width:auto; 
+    height:auto; 
+    opacity:1; 
+    pointer-events:none; 
+    z-index: 3;
+}
+.fishBig{ 
+    top: 48%;
+    width:24%; 
+}
+.fishMid{ 
+    top: 48%;
+    width:22%; 
+}
+
+.school{ 
+    /* position:absolute;  */
+    left:20%; 
+    top:15%; 
+    width:0; 
+    height:auto; 
+    inset: 0;
+    z-index: 1;
+
+}
+.school img{ 
+    position:absolute; 
+    height: auto;
+    transform-origin: 50% 50%;
+}
+
+/* мешканці дна */
+.creep{ 
+    position:absolute;  
+    width:auto; 
+    height:auto;
+    opacity:.95; 
+}
+.eel{ 
+    left:50%; 
+    width:15%; 
+}
+.centipede{ 
+    left:16%; 
+    bottom:12%; 
+    width:10%; 
+}
+.snail{ 
+    right:20%; 
+    bottom:3%; 
+    width:5%; 
+}
+
+/* каченя під водою */
+.duckWrap{ 
+    position:absolute; 
+    left:24%; 
+    top:24%; 
+    width:36%; 
+    height:auto; 
+    z-index: 5;
+
+}
+.duck{ 
+    width:100%; 
+    height:auto; 
+    display:block; 
+}
+
+.duckBubbles{ 
+    position:absolute; 
+    left:74%; 
+    top:64%; 
+    width:0; 
+    height:0; 
+    pointer-events:none; 
+}
+.duckBubbles span{
+  position:absolute; 
+  left:0; 
+  top:0;
+  width:8px;
+  height:8px; 
+  border-radius:50%;
+  background: radial-gradient(50% 50% at 35% 35%, #fff 0, rgba(255,255,255,.2) 55%, rgba(255,255,255,0) 70%);
+  filter: blur(.2px);
+}
+
+/* підпис */
+.caption{
+  position:absolute; 
+  left:50%; 
+  top:6%;
+  transform:translateX(-50%);
+  margin:0; 
+  padding:10px 16px; 
+  border-radius:12px;
+  color:#fff; 
+  font-family:"Comfortaa", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-weight:700; 
+  line-height:1.15;
+  font-size: clamp(18px, 2.4vmax, 32px);
+  text-shadow: 0 3px 10px rgba(0,0,0,.45);
+  background: rgba(10,25,41,.28);
+  backdrop-filter: saturate(130%) blur(2px);
+  z-index:5;
+}
+
+/* дрібні підлаштування */
+@media (max-width: 768px){
+  .fishBig{ width:18%; }
+  .fishMid{ width:16%; }
+}

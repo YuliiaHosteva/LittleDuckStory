@@ -5,10 +5,11 @@ import { gsap } from 'gsap';
 import FirstScene from '../FirstScene/FirstScene.jsx';
 import SecondScene from '../SecondScene/SecondScene.jsx';
 import ThirdScene from '../ThirdScene/ThirdScene.jsx';
+import FourthScene from '../FourthScene/FourthScene.jsx';
 
 import css from './Story.module.css';
 
-const scenes = [FirstScene, SecondScene, ThirdScene]; 
+const scenes = [FirstScene, SecondScene, ThirdScene, FourthScene]; 
 
 export default function Story() {
   const [idx, setIdx] = useState(0);
