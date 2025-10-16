@@ -14,16 +14,17 @@
   border-radius:16px;
   box-shadow:0 10px 30px rgba(0,0,0,.12);
   /* небо → вода */
-  background:
-    radial-gradient(120% 70% at 50% -25%, rgba(255,255,255,.5) 0, rgba(255,255,255,0) 60%),
+background:
+    radial-gradient(120% 60% at 50% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 60%),
     linear-gradient(180deg,
-      hsl(200 100% 92%) 0%,
-      hsl(200 100% 86%) 20%,
-      hsl(200 100% 76%) 36%,
-      hsl(200 100% 64%) 52%,
-      hsl(205 90% 52%) 72%,
-      hsl(210 90% 42%) 100%);
-}
+      hsl(205 100% 92%) 0%,       /* небо — блакитний */
+      hsl(198 88% 78%) 18%,
+      hsl(190, 79%, 68%) 23%,       /* горизонт */
+      hsl(184, 65%, 55%) 48%,       /* початок води (бірюза) */
+      hsl(182 68% 44%) 55%,
+      hsl(182 64% 38%) 100%       /* глибина — темніше/зеленіше */
+    );
+  }
 
 /* легка імла/відблиски у воді */
 .haze{
@@ -37,16 +38,34 @@
   pointer-events:none;
 }
 
-.noise{
+.waterFx{
   position:absolute; 
   inset:0; 
-  pointer-events:none;
-  z-index:6; 
-  opacity:.06; 
-  mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:200px 200px;
+  top:28%;  /* де починається вода */
+  mix-blend-mode: screen;
+  pointer-events:none; 
+  z-index:2; /* під каченям/текстом, над фоном */
+
+  /* два великі шари без швів — жодних дрібних плиток */
+  background-image:
+    radial-gradient(1200px 600px at 50% 20%, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 55%),
+    radial-gradient(900px 900px at 60% 80%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 60%);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 200% 140%, 160% 160%;
+  background-position: 0% 0%, 100% 100%;
+  opacity: .22;
+  animation: water-drift 22s linear infinite;
 }
+@keyframes water-drift{
+  0%   { background-position: 0% 0%,   100% 100%; }
+  50%  { background-position: 60% 20%,  40% 60%;  }
+  100% { background-position: 0% 0%,   100% 100%; }
+}
+
+
+
+
+
 
 .sun{ 
     position:absolute; 
@@ -93,11 +112,12 @@
   bottom:0; 
   height:55%;
   background: linear-gradient(180deg,
-    rgba(238,224,150,0) 0%,
-    rgba(238,224,150,.18) 30%,
-    rgba(224,199,112,.35) 55%,
-    rgba(204,173,80,.55) 100%);
-  mix-blend-mode: soft-light;   /* м’якше змішування */
+    rgba(238, 232, 150, 0) 0%,
+    rgba(223, 238, 150, 0.18) 30%,
+    rgba(151, 126, 38, 0.35) 55%,
+    rgba(100, 78, 10, 1) 100%);
+
+
 }
 .bg::before{
   /* тонка лінія-рефлекс на поверхні */
@@ -105,20 +125,13 @@
   position:absolute; 
   left:0; 
   right:0; 
-  top:29%; 
+  top:32%; 
   height:18px;
   background: linear-gradient(180deg, rgba(255,255,255,.8), rgba(255,255,255,0));
   opacity:.55;
+  z-index: 2;
 }
-.swamp{
-  position:absolute; 
-  width:100%; 
-  height:100%; 
-  object-fit: cover;
-  inset: 0;
-  z-index: 0;
-  filter: hue-rotate(-6deg) saturate(1.05) brightness(1.05);
-}
+
 
 .bottom{
     position:absolute; 
@@ -185,11 +198,14 @@
     z-index: 3;
 }
 .fishBig{ 
+
     top: 48%;
+    left: 58%;
     width:24%; 
 }
 .fishMid{ 
     top: 48%;
+    left: 58%;
     width:22%; 
 }
 
@@ -234,23 +250,75 @@
 /* каченя під водою */
 .duckWrap{ 
     position:absolute; 
-    left:24%; 
-    top:24%; 
-    width:36%; 
+    left:52%; 
+    top:44%; 
+    width:38%; 
     height:auto; 
-    z-index: 5;
+    transform: translate(-50%,-50%) rotate(-2deg);
+    z-index: 1;
 
 }
 .duck{ 
     width:100%; 
     height:auto; 
     display:block; 
+    filter: brightness(.94) saturate(.9) hue-rotate(-6deg) blur(.25px);
+
+}
+
+.surfaceRing{
+  position:absolute; 
+  left:64%; 
+  top:30%;
+  width:60px; 
+  height:32px; 
+  border-radius:50%;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.55) inset, 0 0 10px rgba(255,255,255,.6);
+  opacity:.65; 
+  filter: blur(.3px);
+  animation: ring 2.2s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes ring {
+  0%   { transform: scale(.7); opacity:.55;}
+  60%  { transform: scale(1.12); opacity:.25;}
+  100% { transform: scale(1.25); opacity:.0;}
+}
+
+/* напівпрозора бірюзова «вода» над усім підводним */
+.waterOverlay{
+  position:absolute; 
+  left:0; 
+  right:0; 
+  top: var(--waterline); 
+  bottom:0;
+  pointer-events:none; 
+  z-index:4;
+  background: linear-gradient(to bottom,
+    rgba(20,140,160,.16) 0%,
+    rgba(10,120,150,.20) 50%,
+    rgba(0,90,120,.24) 100%);
+}
+/* м’яка біла межа поверхні зверху (ефект відблиску) */
+.surfaceShine{
+  position:absolute; 
+  left:0; 
+  right:0; 
+  top: calc(var(--waterline) - 4px);
+  height: 48px; 
+  pointer-events:none; 
+  z-index:5;
+  background: linear-gradient(to bottom, rgba(255,255,255,.55), rgba(255,255,255,.08) 60%, transparent 100%);
+  filter: blur(.6px);
+  /* легка «хвилястість» маскою, щоб край не був ідеально прямий */
+  -webkit-mask-image: radial-gradient(160px 26px at 50% 0, #000 35%, transparent 100%);
+          mask-image: radial-gradient(160px 26px at 50% 0, #000 35%, transparent 100%);
 }
 
 .duckBubbles{ 
     position:absolute; 
-    left:74%; 
-    top:64%; 
+    left:72%; 
+    top:82%; 
     width:0; 
     height:0; 
     pointer-events:none; 
@@ -262,7 +330,7 @@
   width:8px;
   height:8px; 
   border-radius:50%;
-  background: radial-gradient(50% 50% at 35% 35%, #fff 0, rgba(255,255,255,.2) 55%, rgba(255,255,255,0) 70%);
+  background: rgba(255,255,255,.9); box-shadow:0 0 6px rgba(255,255,255,.6);  
   filter: blur(.2px);
 }
 

@@ -11,7 +11,6 @@ import centipede  from '../../assets/Scene4/Centipede.png';
 import snail      from '../../assets/Scene4/snail.png';
 import waterDuck  from '../../assets/Scene4/water_duck.png';
 import bottom     from '../../assets/Scene4/bottom.png';
-import swamp from '../../assets/Scene4/swamp.png';
 
 import g1 from '../../assets/Scene4/grass1.png';
 import g2 from '../../assets/Scene4/grass2.png';
@@ -51,7 +50,7 @@ export default function FourthScene() {
       gsap.to(`.${css.sun}`,   { y: '-=4',  duration: 6,  repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
       // каченя під водою + бульбашки
-      gsap.to([`.${css.duck}`, `.${css.fishBig}`, `.${css.fishMid}`], { y: '+=10', rotation: -6, transformOrigin:'55% 40%', duration: 2.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+      gsap.to([`.${css.duck}`, `.${css.fishBig}`, `.${css.fishMid}`], { y: '+=12', rotation: -8, transformOrigin:'55% 40%', duration: 2.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
       const bubbles = gsap.utils.toArray(`.${css.duckBubbles} span`);
       bubbles.forEach((el, i) => {
         const loop = () => {
@@ -146,13 +145,14 @@ export default function FourthScene() {
 
         {/* небо/вода + легка імла та відблиски */}
         <div className={css.haze} aria-hidden />
+        <div className={css.waterFx} aria-hidden />
+        <div className={css.surfaceBand} aria-hidden />
         <img className={css.sun} src={sun} alt="" aria-hidden />
         <img className={css.cloud} src={cloud} alt="" aria-hidden />
 
         {/* дно */}
         <div className={css.bg} aria-hidden />
         <img className={css.bottom} src={bottom} alt="" aria-hidden />
-        <img className={css.swamp} src={swamp} alt="" aria-hidden />
        
         {/* рослини (ліворуч/праворуч) */}
         <img className={`${css.plant} ${css.pL1}`} src={g1} alt="" />
@@ -179,10 +179,16 @@ export default function FourthScene() {
         {/* каченя під водою + бульбашки */}
         <div className={css.duckWrap}>
           <img className={`${css.duck}`} src={waterDuck} alt="Küken" />
+          <div className={css.surfaceRing} aria-hidden />
           <div className={css.duckBubbles} aria-hidden>
             {Array.from({length: 6}).map((_,i)=><span key={i} />)}
           </div>
         </div>
+
+        {/* накладка води + блиск поверхні */}
+        <div className={css.waterOverlay} aria-hidden>
+        </div>
+        <div className={css.surfaceShine} aria-hidden />
 
         {/* текст */}
         <p className={css.caption}>
@@ -191,7 +197,6 @@ export default function FourthScene() {
           “Kommt, wir schwimmen auf und ab!”
         </p>
 
-        <div className={css.noise} />
       </div>
     </div>
   );
