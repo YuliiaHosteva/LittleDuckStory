@@ -18,13 +18,21 @@ background:
     radial-gradient(120% 60% at 50% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 60%),
     linear-gradient(180deg,
       hsl(205 100% 92%) 0%,       /* небо — блакитний */
-      hsl(198 88% 78%) 18%,
-      hsl(190, 79%, 68%) 23%,       /* горизонт */
-      hsl(184, 65%, 55%) 48%,       /* початок води (бірюза) */
-      hsl(182 68% 44%) 55%,
-      hsl(182 64% 38%) 100%       /* глибина — темніше/зеленіше */
-    );
+      hsl(198, 98%, 83%) 18%,
+      hsl(190, 65%, 72%) 32%,       /* горизонт */
+      hsl(184, 64%, 53%) 42%,       /* початок води (бірюза) */
+      hsl(182, 66%, 46%) 55%,
+      hsl(182, 64%, 28%) 100%       /* глибина — темніше/зеленіше */
+    ); 
   }
+
+.birds{
+  position:absolute; 
+  left: 53%; 
+  top: 1%;
+  width: 18%; 
+  height:auto; 
+}
 
 /* легка імла/відблиски у воді */
 .haze{
@@ -34,7 +42,7 @@ background:
     radial-gradient(40% 18% at 50% 44%, rgba(255,255,255,.35) 0, rgba(255,255,255,0) 100%),
     radial-gradient(60% 22% at 48% 58%, rgba(255,255,255,.18) 0, rgba(255,255,255,0) 100%);
   mix-blend-mode: screen;
-  opacity:.45;
+  opacity:.25;
   pointer-events:none;
 }
 
@@ -63,44 +71,13 @@ background:
 }
 
 
-
-
-
-
-.sun{ 
-    position:absolute; 
-    right:6%; 
-    top:2%; 
-    width:9%; 
-    height:auto; 
-    opacity:.9; 
-    z-index: 2;
-}
-.cloud{ 
-    position:absolute; 
-    left:8%; 
-    top:-4%; 
-    width:16%; 
-    height:auto; 
-    opacity:.9; 
-    z-index: 2;
-}
-
 .bg{
   position:absolute; 
   inset:0; 
   z-index:0; 
   pointer-events:none;
-  background:
-    /* блиск поверхні зверху */
-    radial-gradient(140% 80% at 50% -10%, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 30%),
-    /* сам колір води */
-    linear-gradient(180deg,
-      #c9f2ff 0%,
-      #7de2f0 24%,
-      #38c7de 58%,
-      #1aa9c7 78%,
-      #128faf 100%);
+  background: none;
+
 }
 
 .bg::after{
@@ -127,9 +104,8 @@ background:
   right:0; 
   top:32%; 
   height:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.8), rgba(255,255,255,0));
+  background: linear-gradient(180deg, rgba(33, 194, 186, 0.8), rgba(255,255,255,0));
   opacity:.55;
-  z-index: 2;
 }
 
 
@@ -148,12 +124,12 @@ background:
     position:absolute; 
     width:auto; 
     height:auto; 
-    opacity:0; 
 }
 .pL1{ 
     left:-7%;  
     width:26%; 
     bottom: -6%;
+    z-index: 1;
 }
 .pL2{ 
     left:1%; 
@@ -166,6 +142,7 @@ background:
     width:24%; 
     bottom: -7%;
     z-index: 2;
+    opacity: .86 !important;
 
 }
 .pR1{ 
@@ -179,6 +156,7 @@ background:
     right:-4%; 
     width:54%; 
     bottom: -32%;
+    z-index: 1;
 
 }
 .pR3{ 
@@ -186,6 +164,28 @@ background:
     width:54%; 
     bottom: -34%;
 
+}
+.g7{
+   right:63%; 
+    width:22%; 
+    top: 25%;
+    opacity: .78 !important;
+}
+
+.reeds{
+  left:53%; 
+    width:52%; 
+    top: 1%;
+    z-index: 0;
+    transform-origin: 50% 50% !important;
+
+}
+
+.reeds2{
+  right:53%; 
+    width:52%; 
+    top: 1%;
+    z-index: 0;
 }
 
 /* риби */
@@ -254,27 +254,27 @@ background:
     top:44%; 
     width:38%; 
     height:auto; 
-    transform: translate(-50%,-50%) rotate(-2deg);
+    transform: translate(-50%,-50%);
     z-index: 1;
 
 }
+
+
 .duck{ 
     width:100%; 
     height:auto; 
     display:block; 
     filter: brightness(.94) saturate(.9) hue-rotate(-6deg) blur(.25px);
-
 }
 
 .surfaceRing{
   position:absolute; 
-  left:64%; 
-  top:30%;
-  width:60px; 
+  left:42%; 
+  top:35%;
+  width:170px; 
   height:32px; 
   border-radius:50%;
-  box-shadow: 0 0 0 2px rgba(255,255,255,.55) inset, 0 0 10px rgba(255,255,255,.6);
-  opacity:.65; 
+  box-shadow: 0 0 0 6px rgba(255,255,255,.55) inset, 0 0 10px rgba(255,255,255,.6);
   filter: blur(.3px);
   animation: ring 2.2s ease-in-out infinite;
   pointer-events:none;
