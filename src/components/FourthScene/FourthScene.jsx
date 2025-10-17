@@ -10,7 +10,7 @@ import eel        from '../../assets/Scene4/Eel_underwater.png';
 import centipede  from '../../assets/Scene4/Centipede.png';
 import snail      from '../../assets/Scene4/snail.png';
 import waterDuck  from '../../assets/Scene4/water_duck.png';
-import bottom     from '../../assets/Scene4/bottom.png';
+import stone    from '../../assets/Scene4/bottom.png';
 
 import g1 from '../../assets/Scene4/grass1.png';
 import g2 from '../../assets/Scene4/grass2.png';
@@ -20,8 +20,14 @@ import g5 from '../../assets/Scene4/grass5.png';
 import g6 from '../../assets/Scene4/grass6.png';
 import g7 from '../../assets/Scene4/Limnobium.png';
 import g8 from '../../assets/Scene4/Reeds.png';
+import g9 from '../../assets/Scene4/Green_grass.png';
+import g10 from '../../assets/Scene4/grass10.png';
+import g11 from '../../assets/Scene4/grass11.png';
+import g12 from '../../assets/Scene4/grass12.png';
 
-import birds from '../../assets/Scene2/Birds.png'
+
+import birds from '../../assets/Scene2/Birds.png';
+import forest from '../../assets/Scene4/Forrest.png';
 
 
 export default function FourthScene() {
@@ -31,12 +37,12 @@ export default function FourthScene() {
     const ctx = gsap.context(() => {
       // вхід сцени
       gsap.set(`.${css.caption}`, { y: 18, opacity: 0 });
-      gsap.set([`.${css.fish}`, `.${css.creep}`, `.${css.duck}`, `.${css.birds}`], { opacity: 0, y: 8 });
+      gsap.set([`.${css.fish}`, `.${css.creep}`, `.${css.duck}`, `.${css.birds}`], { opacity: 0, y: 8 })
+      gsap.set ([`.${css.reeds}`], { scaleX: -1});
 
       const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
       tl.fromTo(`.${css.frame}`, { scale: 1.03 }, { scale: 1, duration: 0.8 })
-        .to([`.${css.plant}`], { opacity: 1, duration: 0.3 }, '-=0.5')
-        .to([`.${css.reeds}`], { scaleX: -1, duration: 0.3 }, '-=0.5')
+        .to([`.${css.plant}`], { duration: 0.3 }, '-=0.5')
         .to([`.${css.fish}`, `.${css.creep}`, `.${css.duck}`], { opacity: 1, y: 0, duration: 0.5 }, '-=0.25')
         .to(`.${css.caption}`, { opacity: 1, y: 0, duration: 0.45 }, '-=0.2')
         .to(`.${css.birds}`, { opacity: 1, y: 0, duration: 0.25 }, '-=0.2');
@@ -50,20 +56,37 @@ export default function FourthScene() {
       });
 
       // каченя під водою + бульбашки
-      gsap.to([`.${css.duck}`, `.${css.fishBig}`, `.${css.fishMid}`], { y: '+=12', rotation: -8, transformOrigin:'55% 40%', duration: 2.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+      gsap.to([`.${css.duck}`, `.${css.fishBig}`, `.${css.fishMid}`], { 
+        y: '+=12', 
+        rotation: -8, 
+        transformOrigin:'55% 40%', 
+        duration: 2.2, yoyo: true, repeat: -1,
+        ease: 'sine.inOut' });
+
       const bubbles = gsap.utils.toArray(`.${css.duckBubbles} span`);
       bubbles.forEach((el, i) => {
         const loop = () => {
-          gsap.set(el, { x: gsap.utils.random(-10, 16), y: gsap.utils.random(6, 18), scale: gsap.utils.random(.4, .9), opacity:.0 });
-          gsap.to(el, { y: '-=46', opacity: .9, duration: gsap.utils.random(1.2, 2.0), ease: 'sine.out',
-            onComplete: () => gsap.to(el, { opacity: 0, duration: .4, onComplete: loop })
+          gsap.set(el, { x: gsap.utils.random(-10, 16), 
+            y: gsap.utils.random(6, 18), 
+            scale: gsap.utils.random(.4, .9), 
+            opacity:.0 });
+          gsap.to(el, { 
+            y: '-=46', 
+            opacity: .9, 
+            duration: gsap.utils.random(1.2, 2.0), 
+            ease: 'sine.out',
+            onComplete: () => gsap.to(el, { 
+              opacity: 0, 
+              duration: .4, onComplete: loop })
           });
         };
         gsap.delayedCall(i * 0.25, loop);
       });
 
        gsap.to(`.${css.birds}`, {
-              x: '+=30', y: '-=6', repeat: -1, yoyo: true, duration: 6, ease: 'sine.inOut'
+              x: '+=30', 
+              y: '-=6', 
+              repeat: -1, yoyo: true, duration: 6, ease: 'sine.inOut'
             });
 
       // риби — нескінченне плавання з «гойдалкою»
@@ -94,12 +117,22 @@ export default function FourthScene() {
             scaleY: size,
              rotate: fromLeft ? 0 : 0 });
           // вертикальна «гойдалка»
-          gsap.to(el, { y: y + (fromLeft ? -amplitude : amplitude), duration: bobDur, repeat: -1, yoyo: true, ease:'sine.inOut' });
+          gsap.to(el, { y: y + (fromLeft ? -amplitude : amplitude), 
+            duration: bobDur, 
+            repeat: -1, yoyo: true, ease:'sine.inOut' });
           // пливемо поперек
           gsap.to(el, { x: endX, duration: dur, ease: 'none', onComplete: loop });
         };
         loop();
       };
+
+      gsap.utils.toArray(`.${css.motes} span`).forEach((el,i)=>{
+        el.style.setProperty('--x', `${gsap.utils.random(0, window.innerWidth)}px`);
+        el.style.setProperty('--y', `${gsap.utils.random(0, root.current.getBoundingClientRect().height*0.6)}px`);
+        gsap.to(el, { 
+          duration: 10+Math.random()*8, 
+          repeat:-1, delay:i*.4, ease:"none" });
+      });
 
       gsap.utils.toArray(`.${css.school} img`).forEach((el, i) => {
         swimAcross(el, { 
@@ -117,8 +150,6 @@ export default function FourthScene() {
         ease: 'sine.inOut'
       });
 
-    
-
       // вугор — хвилею по низу
       const eelEl = document.querySelector(`.${css.eel}`);
       if (eelEl) {
@@ -126,34 +157,58 @@ export default function FourthScene() {
           const y = frame.height * gsap.utils.random(0.70, 0.84);
           const dur = gsap.utils.random(12, 18);
           gsap.set(eelEl, { x: frame.width + 160, y, rotation: 0 });
-          gsap.to(eelEl, { x: -160, duration: dur, ease: 'none', onComplete: loopEel });
-          gsap.to(eelEl, { y: y + 12, rotation: -3, duration: 1.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+          gsap.to(eelEl, { 
+            x: -160, 
+            duration: dur, ease: 'none', onComplete: loopEel });
+          gsap.to(eelEl, { 
+            y: y + 12, 
+            rotation: -3, 
+            duration: 1.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
         };
         loopEel();
       }
 
       // «повзучі» на дні
-      gsap.to(`.${css.snail}`,     { x: '+=40', duration: 24, repeat: -1, yoyo: true, ease: 'none' });
-      gsap.to(`.${css.centipede}`, { x: '-=60', duration: 18, repeat: -1, yoyo: true, ease: 'none' });
+      gsap.to(`.${css.snail}`,     { 
+        x: '+=40', 
+        duration: 24, 
+        repeat: -1, yoyo: true, ease: 'none' });
+      
+        gsap.to(`.${css.centipede}`, { 
+        x: '-=60', 
+        duration: 18, 
+        repeat: -1, yoyo: true, ease: 'none' });
 
     }, root);
     return () => ctx.revert();
   }, []);
 
-  // легкий паралакс (фон/рослини)
+  // паралакс (фон/рослини)
   const onParallax = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
     const cx = (e.clientX - r.left) / r.width - 0.5;
     const cy = (e.clientY - r.top)  / r.height - 0.5;
-    gsap.to(`.${css.haze}`,  { x: cx * 10, y: cy * 6,  duration: .5, ease:'sine.out' });
-    gsap.to(`.${css.plant}`, { x: cx * 6,  y: cy * 6,  duration: .5, ease:'sine.out' });
+    gsap.to(`.${css.haze}`,  { x: cx * 10, y: cy * 6,  duration: .5, ease:'sine.out' })
+    gsap.to(`.${css.plant}`, { x: cx * 6,  y: cy * 6,  duration: .5, ease:'sine.out' })
+    gsap.to(`.${css.forest}`, { x: cx * 4,  y: cy * 4,  duration: .5, ease:'sine.out' });
+
   };
 
   return (
     <div className={css.scene}>
       <div ref={root} className={css.frame} onMouseMove={onParallax}>
         <img className={css.birds} src={birds} alt="" />
-
+          <div
+            className={css.forest}
+            style={{ '--img': `url(${forest})` }}
+            aria-hidden
+          />
+        <img className={`${css.plant} ${css.g9}`} src={g9} alt="" />
+        <img className={`${css.plant} ${css.g10}`} src={g10} alt="" />
+        <img className={`${css.plant} ${css.g11}`} src={g11} alt="" />
+        <img className={`${css.plant} ${css.g12}`} src={g12} alt="" />
+        <img className={`${css.plant} ${css.g13}`} src={g10} alt="" />
+        
         {/* небо/вода + легка імла та відблиски */}
         <div className={css.haze} aria-hidden />
         <div className={css.waterFx} aria-hidden />
@@ -161,7 +216,8 @@ export default function FourthScene() {
 
         {/* дно */}
         <div className={css.bg} aria-hidden />
-        <img className={css.bottom} src={bottom} alt="" aria-hidden />
+        <img className={css.stone} src={stone} alt="" aria-hidden />
+        <div className={css.bottomVignette} aria-hidden /> 
        
         {/* рослини (ліворуч/праворуч) */}
         <img className={`${css.plant} ${css.pL1}`} src={g1} alt="" />
@@ -172,7 +228,7 @@ export default function FourthScene() {
         <img className={`${css.plant} ${css.pR3}`} src={g6} alt="" />
 
         <img className={`${css.plant} ${css.g7}`} src={g7} alt="" />
-        <img className={`${css.plant} ${css.reeds}`} src={g8} alt="" />
+        <img className={css.reeds} src={g8} alt="" />
         <img className={`${css.plant} ${css.reeds2}`} src={g8} alt="" />
 
         {/* рибки: велика + середня + косяк маленьких */}
@@ -188,9 +244,13 @@ export default function FourthScene() {
         <img className={`${css.creep} ${css.eel}`}       src={eel}       alt="" />
         <img className={`${css.creep} ${css.centipede}`} src={centipede} alt="" />
         <img className={`${css.creep} ${css.snail}`}     src={snail}     alt="" />
+          <div className={css.motes} aria-hidden>
+            {Array.from({length:18}).map((_,i)=><span key={i}/>)}
+          </div>
 
         {/* каченя під водою + бульбашки */}
          <div className={css.surfaceRing} aria-hidden />
+         <div className={css.foam} aria-hidden />
         <div className={css.duckWrap}>
           <img className={`${css.duck}`} src={waterDuck} alt="Küken" />
           <div className={css.duckBubbles} aria-hidden>
@@ -209,7 +269,6 @@ export default function FourthScene() {
           ruft das Küken.<br/>
           “Kommt, wir schwimmen auf und ab!”
         </p>
-
       </div>
     </div>
   );

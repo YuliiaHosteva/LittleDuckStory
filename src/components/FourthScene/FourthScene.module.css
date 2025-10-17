@@ -20,18 +20,114 @@ background:
       hsl(205 100% 92%) 0%,       /* небо — блакитний */
       hsl(198, 98%, 83%) 18%,
       hsl(190, 65%, 72%) 32%,       /* горизонт */
-      hsl(184, 64%, 53%) 42%,       /* початок води (бірюза) */
-      hsl(182, 66%, 46%) 55%,
-      hsl(182, 64%, 28%) 100%       /* глибина — темніше/зеленіше */
+      hsl(153, 20%, 48%) 45%,       /* початок води (бірюза) */
+      hsl(137, 30%, 38%) 55%,
+      hsl(83, 66%, 22%) 100%       /* глибина — темніше/зеленіше */
     ); 
   }
 
 .birds{
   position:absolute; 
-  left: 53%; 
-  top: 1%;
+  left: 62%; 
+  top: -8%;
   width: 18%; 
   height:auto; 
+}
+
+.forest{
+  position:absolute; 
+  left:0; 
+  right: 0;
+  top:0;
+  height:48%; 
+  opacity:.25;
+  filter: blur(1px) saturate(.8);
+  mix-blend-mode: multiply;
+  z-index:1;
+  overflow: hidden;
+  /* два шари одного зображення */
+  --tile: 34%;                     /* ширина однієї “плитки” — підкрути 28–40% */
+  background-image: var(--img), var(--img);
+  background-repeat: repeat-x, repeat-x;
+  background-size: var(--tile) 100%, var(--tile) 100%;
+  background-position: 0 0, calc(var(--tile) / 2) 0;   /* другий шар зсунутий на півплитки */
+
+  /* залишимо лише верхнє згасання (щоб не “світилося” на стиках) */
+  -webkit-mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+}
+
+.g9{
+  left:36%; 
+  top:22%;
+  width: 6%;
+  opacity:.6;
+  /* filter: blur(1px) saturate(.7); */
+  mix-blend-mode: multiply;
+  z-index:1;
+  overflow: hidden;
+    /* залишимо лише верхнє згасання (щоб не “світилося” на стиках) */
+  -webkit-mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+
+}
+.g10{
+  left:63%; 
+  top:17%;
+  width: 12%;
+  opacity: 0.6;
+  /* filter: blur(1px) saturate(.7); */
+  mix-blend-mode: multiply;
+  z-index:1;
+  overflow: hidden;
+    /* залишимо лише верхнє згасання (щоб не “світилося” на стиках) */
+  -webkit-mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+
+}
+.g11{
+  left:63%; 
+  top:16%;
+  width: 20%;
+  opacity:.6;
+  /* filter: blur(1px) saturate(.7); */
+  mix-blend-mode: multiply;
+  z-index:1;
+  overflow: hidden;
+    /* залишимо лише верхнє згасання (щоб не “світилося” на стиках) */
+  -webkit-mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+
+}
+
+.g12{
+  left:30%; 
+  top:20%;
+  width: 9%;
+  opacity:.6;
+  /* filter: blur(1px) saturate(.7); */
+  mix-blend-mode: multiply;
+  z-index:1;
+  overflow: hidden;
+    /* залишимо лише верхнє згасання (щоб не “світилося” на стиках) */
+  -webkit-mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+
+}
+
+.g13{
+  left:22%; 
+  top:17%;
+  width: 12%;
+  opacity: 0.6;
+  /* filter: blur(1px) saturate(.7); */
+  mix-blend-mode: multiply;
+  z-index:1;
+  overflow: hidden;
+    /* залишимо лише верхнє згасання (щоб не “світилося” на стиках) */
+  -webkit-mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 68%, transparent 100%);
+
 }
 
 /* легка імла/відблиски у воді */
@@ -77,7 +173,6 @@ background:
   z-index:0; 
   pointer-events:none;
   background: none;
-
 }
 
 .bg::after{
@@ -91,7 +186,7 @@ background:
   background: linear-gradient(180deg,
     rgba(238, 232, 150, 0) 0%,
     rgba(223, 238, 150, 0.18) 30%,
-    rgba(151, 126, 38, 0.35) 55%,
+    rgba(123, 103, 31, 0.475) 55%,
     rgba(100, 78, 10, 1) 100%);
 
 
@@ -104,12 +199,13 @@ background:
   right:0; 
   top:32%; 
   height:18px;
-  background: linear-gradient(180deg, rgba(33, 194, 186, 0.8), rgba(255,255,255,0));
+  background: linear-gradient(180deg, hsl(70, 30%, 62%)25%,
+ rgba(255,255,255,0));
   opacity:.55;
+
 }
 
-
-.bottom{
+.stone{
     position:absolute; 
     right:40%; 
     bottom:-1%; 
@@ -119,12 +215,23 @@ background:
     z-index: 2;
 }
 
+.bottomVignette{
+  position:absolute; 
+  left:0; 
+  right:0; 
+  bottom:0; 
+  height:6%;
+  pointer-events:none;
+  background: linear-gradient(to top, rgba(0,40,30,.35), rgba(0,0,0,0));
+  mix-blend-mode:multiply;
+}
+
 /* рослини */
 .plant{ 
     position:absolute; 
-    width:auto; 
     height:auto; 
 }
+
 .pL1{ 
     left:-7%;  
     width:26%; 
@@ -142,7 +249,7 @@ background:
     width:24%; 
     bottom: -7%;
     z-index: 2;
-    opacity: .86 !important;
+    opacity: .86;
 
 }
 .pR1{ 
@@ -166,18 +273,19 @@ background:
 
 }
 .g7{
-   right:63%; 
-    width:22%; 
-    top: 25%;
-    opacity: .78 !important;
+   right:68%; 
+    width:18%; 
+    top: 34%;
+    opacity: .78;
 }
 
 .reeds{
-  left:53%; 
-    width:52%; 
-    top: 1%;
-    z-index: 0;
-    transform-origin: 50% 50% !important;
+  position:absolute; 
+  height:auto; 
+  left:51%; 
+  width:52%; 
+  top: 1%;
+  z-index: 0;
 
 }
 
@@ -193,15 +301,17 @@ background:
     position:absolute; 
     width:auto; 
     height:auto; 
-    opacity:1; 
+    opacity:.95; 
     pointer-events:none; 
     z-index: 3;
+
 }
 .fishBig{ 
-
     top: 48%;
     left: 58%;
     width:24%; 
+    filter: brightness(.94) saturate(.8) hue-rotate(-6deg) blur(.35px);
+
 }
 .fishMid{ 
     top: 48%;
@@ -210,13 +320,13 @@ background:
 }
 
 .school{ 
-    /* position:absolute;  */
+    position:absolute; 
     left:20%; 
     top:15%; 
     width:0; 
     height:auto; 
     inset: 0;
-    z-index: 1;
+    z-index: 0;
 
 }
 .school img{ 
@@ -224,6 +334,7 @@ background:
     height: auto;
     transform-origin: 50% 50%;
 }
+
 
 /* мешканці дна */
 .creep{ 
@@ -234,7 +345,7 @@ background:
 }
 .eel{ 
     left:50%; 
-    width:15%; 
+    width:10%; 
 }
 .centipede{ 
     left:16%; 
@@ -247,30 +358,73 @@ background:
     width:5%; 
 }
 
+.motes{ 
+  position:absolute; 
+  left:0; 
+  right:0; 
+  top:40%; 
+  bottom:0; 
+  pointer-events:none; 
+  z-index: 2;
+}
+.motes span{
+  position:absolute; 
+  left: 0;
+  top: 0;
+  width:12px; 
+  height:6px; 
+  border-radius:50%;
+  background:rgba(0, 0, 0, 0.153);
+  filter: blur(.8px);
+  opacity:.6;
+  animation: mote 12s linear infinite;
+  z-index: 1;
+}
+@keyframes mote{
+  from{ transform: translate(var(--x,0), var(--y,0));
+  }
+  to  { transform: translate(calc(var(--x,0) + 30px), calc(var(--y,0) - 80px)); opacity:0; 
+  }
+}
+
 /* каченя під водою */
 .duckWrap{ 
     position:absolute; 
     left:52%; 
-    top:44%; 
+    top:51%; 
     width:38%; 
     height:auto; 
     transform: translate(-50%,-50%);
     z-index: 1;
-
 }
-
 
 .duck{ 
     width:100%; 
     height:auto; 
     display:block; 
-    filter: brightness(.94) saturate(.9) hue-rotate(-6deg) blur(.25px);
+    filter: brightness(.94) saturate(.9) hue-rotate(-6deg) blur(.35px);
+
+}
+
+.foam{
+  position:absolute; 
+  left:50%; 
+  top: 40%;
+  width: 28%; 
+  height: 40px; 
+  transform:translateX(-50%);
+  background:
+    radial-gradient(80% 70% at 50% 50%, rgba(255,255,255,.55), transparent 70%);
+  filter: blur(.8px); 
+  opacity:.55; 
+  pointer-events:none; 
+  z-index:1;
 }
 
 .surfaceRing{
   position:absolute; 
-  left:42%; 
-  top:35%;
+  left:40%; 
+  top:42%;
   width:170px; 
   height:32px; 
   border-radius:50%;
@@ -302,10 +456,9 @@ background:
 /* м’яка біла межа поверхні зверху (ефект відблиску) */
 .surfaceShine{
   position:absolute; 
-  left:0; 
-  right:0; 
+  width: 100%;
   top: calc(var(--waterline) - 4px);
-  height: 48px; 
+  height: 45px; 
   pointer-events:none; 
   z-index:5;
   background: linear-gradient(to bottom, rgba(255,255,255,.55), rgba(255,255,255,.08) 60%, transparent 100%);
@@ -341,7 +494,7 @@ background:
   top:6%;
   transform:translateX(-50%);
   margin:0; 
-  padding:10px 16px; 
+  padding:8px 10px; 
   border-radius:12px;
   color:#fff; 
   font-family:"Comfortaa", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -353,6 +506,7 @@ background:
   backdrop-filter: saturate(130%) blur(2px);
   z-index:5;
 }
+
 
 /* дрібні підлаштування */
 @media (max-width: 768px){
