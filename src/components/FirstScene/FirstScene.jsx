@@ -173,6 +173,7 @@ export default function FirstScene() {
         <span className={`${css.wake} ${css.wake1}`} aria-hidden="true" />
         <span className={`${css.wake} ${css.wake2}`} aria-hidden="true" />
 
+
         {/* комахи */}
         <img className={css.bflyBlue} src={butterflyBlue} alt="" />
         <img className={css.bflyOrange} src={butterflyOrange} alt="" />
