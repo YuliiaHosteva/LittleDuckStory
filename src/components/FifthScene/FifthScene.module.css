@@ -53,7 +53,7 @@
 .duck{
   position:absolute; 
   left:56%; 
-  bottom:8%;
+  bottom:10%;
   width:16%; 
   transform:translate(-50%,-50%); 
   z-index:3;
@@ -138,7 +138,7 @@
   transform-origin: 70% 100%;
   transform: none;
   height: auto;
-  z-index: 3;
+  z-index: 4;
 }
 
 .lotus {
@@ -149,7 +149,7 @@
   transform-origin: 50% 80%;
   width: 16%;
   height: auto;
-  z-index: 2;
+  z-index: 4;
 }
 
 .pos{
@@ -160,7 +160,7 @@
   transform: translate(-50%, -50%);
   transform-origin: 50% 100%;
   height: auto;
-  z-index: 3;
+  z-index: 4;
 }
 
 .iris {
