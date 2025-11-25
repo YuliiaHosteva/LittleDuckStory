@@ -53,7 +53,7 @@
 .duck{
   position:absolute; 
   left:56%; 
-  bottom:4%;
+  bottom:8%;
   width:16%; 
   transform:translate(-50%,-50%); 
   z-index:3;
